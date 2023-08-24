@@ -65,12 +65,6 @@ class postController {
     try {
       const filter = { _id: req.params.id };
 
-      fs.unlink(req.body.oldFile, (err) => {
-        if (err) {
-          console.error(err);
-        }
-      });
-
       await Post.findOneAndUpdate(filter, {
         title: req.body.title,
         desc: req.body.desc,
