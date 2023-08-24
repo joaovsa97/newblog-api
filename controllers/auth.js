@@ -40,11 +40,6 @@ class authController {
         if (!matchPassword)
           return res.status(500).send("Senha incorreta");
         else {
-          const objUser = {
-            id: user._id,
-            username: user.username,
-            email: user.email,
-          };
 
           const token = jwt.sign(
             { id: user._id, username: user.username, email: user.email },
@@ -52,10 +47,14 @@ class authController {
             { expiresIn: "8h" }
           );
 
+          const objUser = {
+            id: user._id,
+            username: user.username,
+            email: user.email,
+            token: token
+          };
+
           res
-            .cookie("access_token", token, {
-              httpOnly: true,
-            })
             .status(200)
             .json(objUser);
         }
