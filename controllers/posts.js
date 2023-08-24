@@ -30,7 +30,8 @@ class postController {
   static create = async (req, res) => {
     try {
       const token = req.headers['authorization'];
-      
+      console.log(req.cookies)
+
       if (!token) return res.status(401).json("Usuário não autenticado");
 
       jwt.verify(token, "jwtsecurity", async (err, user) => {
