@@ -12,7 +12,7 @@ dbConnect.once("open", () => {
 
 const app = express();
 
-const allowedOrigins = ["http://localhost:3000"];
+const allowedOrigins = ["http://localhost:3000","https://jvsa-blog.netlify.app"];
 
 const options = (cors.CorsOptions = {
   origin: allowedOrigins,
