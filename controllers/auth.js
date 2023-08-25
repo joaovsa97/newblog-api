@@ -11,7 +11,7 @@ class authController {
 
       const userExist = await User.findOne({ email: Email });
 
-      if (userExist) return res.status(409).json("User already exists!")
+      if (userExist) return res.status(409).json("User already exists!");
       else {
         const hashedPassword = await hashPassword(Password);
         const objUser = await User.create({
@@ -32,15 +32,12 @@ class authController {
       const Password = req.body.password;
 
       const user = await User.findOne({ email: Email });
-      if (!user)
-        return res.status(500).send("Usuário não cadastrado");
+      if (!user) return res.status(500).send("Usuário não cadastrado");
       else {
         const matchPassword = await comparePassword(Password, user.password);
 
-        if (!matchPassword)
-          return res.status(500).send("Senha incorreta");
+        if (!matchPassword) return res.status(500).send("Senha incorreta");
         else {
-
           const token = jwt.sign(
             { id: user._id, username: user.username, email: user.email },
             "jwtsecurity",
@@ -51,10 +48,13 @@ class authController {
             id: user._id,
             username: user.username,
             email: user.email,
-            token: token
+            token: token,
           };
 
           res
+            .cookie("access_token", token, {
+              httpOnly: true,
+            })
             .status(200)
             .json(objUser);
         }
