@@ -54,6 +54,8 @@ class authController {
           res
             .cookie("access_token", token, {
               httpOnly: true,
+              secure: true,
+              sameSite: "none",
             })
             .status(200)
             .json(objUser);
