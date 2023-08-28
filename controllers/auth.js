@@ -11,7 +11,7 @@ class authController {
 
       const userExist = await User.findOne({ email: Email });
 
-      if (userExist) return res.status(409).json("User already exists!");
+      if (userExist) return res.status(409).send("User already exists!");
       else {
         const hashedPassword = await hashPassword(Password);
         const objUser = await User.create({
