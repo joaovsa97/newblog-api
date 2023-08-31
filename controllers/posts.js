@@ -31,7 +31,7 @@ class postController {
   static create = async (req, res) => {
     try {
       const token = req.cookies.access_token;
-      
+
       if (!token) return res.status(401).json("Usuário não autenticado");
 
       jwt.verify(token, "jwtsecurity", async (err, user) => {
@@ -54,9 +54,17 @@ class postController {
 
   static delete = async (req, res) => {
     try {
-      await Post.deleteOne({ _id: req.params.id });
+      const token = req.cookies.access_token;
 
-      res.status(200).send({ message: "Publicação deletada com sucesso!" });
+      if (!token) return res.status(401).json("Usuário não autenticado");
+
+      jwt.verify(token, "jwtsecurity", async (err) => {
+        if (err) return res.status(403).json("token não é válido");
+
+        await Post.deleteOne({ _id: req.params.id });
+
+        res.status(200).send({ message: "Publicação deletada com sucesso!" });
+      });
     } catch (err) {
       res.status(500).send({ message: err });
     }
