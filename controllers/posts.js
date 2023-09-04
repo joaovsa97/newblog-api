@@ -55,7 +55,7 @@ class postController {
   static delete = async (req, res) => {
     try {
       const token = req.cookies.access_token;
-
+      console.log(token)
       if (!token) return res.status(401).json("Usuário não autenticado");
 
       jwt.verify(token, "jwtsecurity", async (err) => {
